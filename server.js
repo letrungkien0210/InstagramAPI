@@ -3,6 +3,7 @@
 var express = require('express');
 var app = express();
 var ig = require('instagram-node').instagram();
+var cool= require('cool-ascii-faces');
 
 // CONFIGURE THE APP
 // ==================================================
@@ -10,6 +11,7 @@ var ig = require('instagram-node').instagram();
 app.use(express.static(__dirname + '/public'));
 
 // set the view engine to ejs
+app.set('port', (process.env.PORT || 5000));
 app.set('view engine', 'ejs');
 
 //configure instagram app with cliend_id
@@ -30,9 +32,12 @@ app.get('/', function (req, res) {
 		res.render('pages/index', { grams: medias });
 	});
 });
-
+app.get('/cool', function(request, response) {
+  response.send(cool());
+});
 
 // START THE SERVER
 // ==================================================
-app.listen(5000);
-console.log('App started! Look at http://localhost:5000');
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
